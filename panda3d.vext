@@ -1,0 +1,14 @@
+# Panda3d vext
+#
+
+# Vext will allow access to these modules
+modules:
+    panda3d
+
+test_import:
+    # Vext will try and import any modules here
+    # To check if the install worked
+    panda3d
+
+install_hints:
+    Panda3d was not found, install it in your system python.
