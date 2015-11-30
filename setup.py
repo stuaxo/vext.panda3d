@@ -1,17 +1,23 @@
-import os
+from glob import glob
+from os.path import dirname, abspath, join
+from sys import prefix
 
 from distutils import sysconfig
 from setuptools import setup
 from setuptools.command.install import install
 
-here=os.path.dirname(os.path.abspath(__file__))
+here=dirname(abspath(__file__))
 site_packages_path = sysconfig.get_python_lib()
+vext_files = list(glob("*.vext"))
 
+def _post_install():
+    from vext.install import check_sysdeps
+    check_sysdeps(join(here, *vext_files))
 
 class CheckInstall(install):
     def run(self):
-        # TODO - massive memory leak happens here !
         self.do_egg_install()
+        self.execute(_post_install, [], msg="Check system dependencies:")
  
 long_description="""
 Allow use of system Panda3d in a virtualenv  
@@ -59,6 +65,6 @@ setup(
 
     # Install pygtk vext
     data_files=[
-        (os.path.join(site_packages_path, 'vext/specs'), ['panda3d.vext'])
+        (join(prefix, 'share/vext/specs'), vext_files)
     ],
 )
