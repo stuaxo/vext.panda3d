@@ -26,7 +26,7 @@ Should work on all platforms.
 
 setup(
     name='vext.panda3d',
-    version='0.2.1',
+    version='0.4.2',
     description='Use system panda3d from a virtualenv',
     long_description=long_description,
 
