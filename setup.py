@@ -8,13 +8,14 @@ from setuptools.command.install import install
 
 here=dirname(abspath(__file__))
 site_packages_path = sysconfig.get_python_lib()
-vext_files = list(glob("*.vext"))
+vext_files = glob("*.vext")
 
 def _post_install():
-    from vext.install import check_sysdeps
+    from vext.install import check_sysdeps, install_vexts
+    install_vexts(vext_files)  # data_files doesn't work in pip7 so do it ourselves
     check_sysdeps(join(here, *vext_files))
 
-class CheckInstall(install):
+class Install(install):
     def run(self):
         self.do_egg_install()
         self.execute(_post_install, [], msg="Check system dependencies:")
@@ -26,12 +27,12 @@ Should work on all platforms.
 
 setup(
     name='vext.panda3d',
-    version='0.4.2',
+    version='0.5.0',
     description='Use system panda3d from a virtualenv',
     long_description=long_description,
 
     cmdclass={
-        'install': CheckInstall,
+        'install': Install,
     },
 
     url='https://github.com/stuaxo/vext',
@@ -61,10 +62,6 @@ setup(
     # What does your project relate to?
     keywords='virtualenv panda3d 3d vext',
 
-    install_requires=["vext"],
-
-    # Install pygtk vext
-    data_files=[
-        (join(prefix, 'share/vext/specs'), vext_files)
-    ],
+    setup_requires=["setuptools>=0.18.8"],
+    install_requires=["vext>=0.5.0"],
 )
