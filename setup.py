@@ -6,6 +6,9 @@ Should work on all platforms.
 report bugs to https://github.com/stuaxo/vext
 """
 
+version="0.5.6"
+vext_version="vext>=%s" % version
+ 
 
 from glob import glob
 from subprocess import call
