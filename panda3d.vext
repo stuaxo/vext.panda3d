@@ -4,6 +4,7 @@
 # Vext will allow access to these modules
 modules:
     panda3d
+    direct
 
 test_import:
     # Vext will try and import any modules here
