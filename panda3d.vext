@@ -3,12 +3,15 @@
 
 # Vext will allow access to these modules
 modules:
-    panda3d
     direct
+    pandac
+    panda3d
 
 test_import:
     # Vext will try and import any modules here
     # To check if the install worked
+    direct
+    pandac
     panda3d
 
 install_hints:

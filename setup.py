@@ -2,16 +2,15 @@
 
 from __future__ import print_function
 
-info="""
+info = """
 Allow use of system Panda3D from a virtualenv
 Should work on all platforms.
 
 report bugs to https://github.com/stuaxo/vext
 """
 
-version="0.6.1"
-vext_version="vext>=%s" % version
-
+version = "0.7.0"
+vext_version = "vext>=%s" % version
 
 from glob import glob
 from subprocess import call
@@ -24,9 +23,11 @@ import sys
 
 vext_files = glob("*.vext")
 
+
 def _post_install(self):
     cmd = ["vext", "-e", "-i" + (" -i".join(vext_files))]
     call(cmd)
+
 
 class Install(install):
     def run(self):
@@ -40,8 +41,9 @@ class Install(install):
             print("Not installing PTH file to real prefix")
             return
         call(["pip", "install", vext_version])
-        self.do_egg_install()
-        self.execute(_post_install, [self], msg="Install vext files:")
+        install.run(self)
+        install.execute(self, _post_install, [self], msg="Install vext files:")
+
 
 setup(
     name='vext.panda3d',
